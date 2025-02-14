@@ -8,6 +8,7 @@ namespace BookStoreAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    //[Authorize(Roles = "Admin")]
     public class CustomerController : ControllerBase
     {
         UserManager<IdentityUser> userManager;

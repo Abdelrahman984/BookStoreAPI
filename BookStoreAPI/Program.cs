@@ -1,6 +1,9 @@
 using BookStoreAPI.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,29 @@ builder.Services.AddDbContext<BookStoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<BookStoreContext>();
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(
+//validate token
+op =>
+{
+    op.SaveToken = true;
+    #region secret key
+    string key = "This is my custom secret key for authnetication";
+    var secertkey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key));
+    #endregion
+    op.TokenValidationParameters = new TokenValidationParameters()
+    {
+        IssuerSigningKey = secertkey,
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
 
 var app = builder.Build();
 
@@ -25,7 +51,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

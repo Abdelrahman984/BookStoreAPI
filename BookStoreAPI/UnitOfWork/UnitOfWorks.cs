@@ -1,19 +1,34 @@
-﻿namespace BookStoreAPI.Unit_Of_Works
+﻿using BookStoreAPI.Models;
+using BookStoreAPI.Repository;
+
+namespace BookStoreAPI.Unit_Of_Works
 {
     public class UnitOfWorks
     {
-        //BookStoreContext db;
+        BookStoreContext db;
+        GenericRepository<Book> bookRepository;
         //GenericRepository<Catalog> catalogRepository;
-        //GenericRepository<Book> bookRepository;
         //GenericRepository<Author> authorRepository;
         //GenericRepository<Admin> adminRepository;
         //GenericRepository<Customer> customerRepository;
         //GenericRepository<Order> orderRepository;
         //GenericRepository<OrderDetails> orderDetailsRepository;
-        //public UnitOfWorks(BookStoreContext db)
-        //{
-        //    this.db = db;
-        //}
+        public UnitOfWorks(BookStoreContext db, GenericRepository<Book> bookRepository)
+        {
+            this.db = db;
+            this.bookRepository = bookRepository;
+        }
+        public GenericRepository<Book> BookRepository
+        {
+            get
+            {
+                if (bookRepository == null)
+                {
+                    bookRepository = new GenericRepository<Book>(db);
+                }
+                return bookRepository;
+            }
+        }
         //public GenericRepository<Catalog> CatalogRepository
         //{
         //    get
@@ -23,17 +38,6 @@
         //            catalogRepository = new GenericRepository<Catalog>(db);
         //        }
         //        return catalogRepository;
-        //    }
-        //}
-        //public GenericRepository<Book> BookRepository
-        //{
-        //    get
-        //    {
-        //        if (bookRepository == null)
-        //        {
-        //            bookRepository = new GenericRepository<Book>(db);
-        //        }
-        //        return bookRepository;
         //    }
         //}
         //public GenericRepository<Author> AuthorRepository
