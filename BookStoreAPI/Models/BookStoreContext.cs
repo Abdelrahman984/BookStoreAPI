@@ -8,7 +8,6 @@ namespace BookStoreAPI.Models
     {
         public BookStoreContext()
         {
-
         }
         public BookStoreContext(DbContextOptions<BookStoreContext> options) : base(options)
         {

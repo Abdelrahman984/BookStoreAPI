@@ -23,7 +23,7 @@ namespace BookStoreAPI.Models
         public int AuthorId { get; set; }
         public virtual Author _Author { get; set; }
 
-        public List<OrderDetails> _OrderDetails { get; set; } = new List<OrderDetails>();
+        public virtual List<OrderDetails> _OrderDetails { get; set; } = new List<OrderDetails>();
 
     }
 }

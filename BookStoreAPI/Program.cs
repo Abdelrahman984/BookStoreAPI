@@ -1,4 +1,5 @@
 using BookStoreAPI.Models;
+using BookStoreAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BookStoreContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<BookStoreContext>();
 builder.Services.AddAuthentication(option =>
@@ -40,9 +41,13 @@ op =>
     };
 });
 
+// Register repositories and UnitOfWork
+builder.Services.AddScoped<UnitOfWorks>();
+builder.Services.AddScoped(typeof(GenericRepository<>));
+
+
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

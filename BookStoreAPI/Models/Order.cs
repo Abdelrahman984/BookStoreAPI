@@ -15,6 +15,6 @@ namespace BookStoreAPI.Models
         public string CustomerId { get; set; } //???
         public virtual Customer _Customer { get; set; }
 
-        public List<OrderDetails> _OrderDetails { get; set; } = new List<OrderDetails>();
+        public virtual List<OrderDetails> _OrderDetails { get; set; } = new List<OrderDetails>();
     }
 }
