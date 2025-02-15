@@ -104,8 +104,4 @@ Authorization: Token your_token_here
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
 
----
-
-Feel free to customize this README further to fit your project's specifics. If you have any questions or need additional modifications, let me know! 
