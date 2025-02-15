@@ -21,7 +21,7 @@ namespace BookStoreAPI.Controllers
             var order = new Order()
             {
                 CustomerId = orderDTO.CustomerId,
-                OrderDate = DateOnly.FromDateTime(DateTime.Now)
+                OrderDate = DateOnly.FromDateTime(DateTime.Now),
                 Status = "Create",
             };
 

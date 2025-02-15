@@ -1,6 +1,7 @@
 ﻿using BookStoreAPI.DTOs;
 using BookStoreAPI.DTOs.CustomerDTO;
 using BookStoreAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace BookStoreAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class CustomerController : ControllerBase
     {
         UserManager<IdentityUser> userManager;
