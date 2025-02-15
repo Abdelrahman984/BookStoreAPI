@@ -1,7 +1,9 @@
 ﻿using BookStoreAPI.DTOs.BookDTOs;
 using BookStoreAPI.Models;
 using BookStoreAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BookStoreAPI.Controllers
 {
@@ -16,6 +18,9 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all books", Description = "Get all books from the database")]
+        [SwaggerResponse(200, "Books retrieved successfully", typeof(List<DisplayBookDTO>))]
+        [SwaggerResponse(404, "No books found")]
         public IActionResult SelectAllBooks()
         {
             List<Book> books = _unit.BookRepository.SelectAll();
@@ -38,6 +43,9 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get book by id", Description = "Get a book by its id from the database")]
+        [SwaggerResponse(200, "Book retrieved successfully", typeof(DisplayBookDTO))]
+        [SwaggerResponse(404, "Book not found")]
         public IActionResult GetBookById(int id)
         {
             Book book = _unit.BookRepository.SelectById(id);
@@ -59,6 +67,10 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [SwaggerOperation(Summary = "Add a book", Description = "Add a book to the database")]
+        [SwaggerResponse(201, "Book added successfully", typeof(AddBookDTO))]
+        [SwaggerResponse(400, "Invalid book data")]
         public IActionResult AddBook(AddBookDTO bookDTO)
         {
             if (!ModelState.IsValid)
@@ -76,10 +88,14 @@ namespace BookStoreAPI.Controllers
             };
             _unit.BookRepository.Add(book);
             _unit.Save();
-            return CreatedAtAction("GetBookById", new { id = book.Id }, book);
+            return CreatedAtAction("GetBookById", new { id = book.Id }, bookDTO);
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        [SwaggerOperation(Summary = "Update a book", Description = "Update a book in the database")]
+        [SwaggerResponse(204, "Book updated successfully")]
+        [SwaggerResponse(400, "Invalid book data")]
         public IActionResult UpdateBook(int id, AddBookDTO bookDTO)
         {
             if (!ModelState.IsValid)
@@ -103,6 +119,10 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        [SwaggerOperation(Summary = "Delete a book", Description = "Delete a book from the database")]
+        [SwaggerResponse(204, "Book deleted successfully")]
+        [SwaggerResponse(404, "Book not found")]
         public IActionResult DeleteBook(int id)
         {
             Book book = _unit.BookRepository.SelectById(id);

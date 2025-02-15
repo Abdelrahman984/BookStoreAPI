@@ -10,7 +10,7 @@ namespace BookStoreAPI.Models
         public int BookId { get; set; }
         public int Quantity { get; set; }
         [Column(TypeName = "money")]
-        public int UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
         public virtual Order _Order { get; set; }
         public virtual Book _Book { get; set; }

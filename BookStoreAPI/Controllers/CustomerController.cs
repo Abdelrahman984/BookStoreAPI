@@ -8,7 +8,7 @@ namespace BookStoreAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    //[Authorize]
     public class CustomerController : ControllerBase
     {
         UserManager<IdentityUser> userManager;
@@ -57,7 +57,6 @@ namespace BookStoreAPI.Controllers
             };
             return Ok(cDTO);
         }
-
 
         [HttpPost]
         public IActionResult AddCustomer(AddCustomerDTO customerDTO)

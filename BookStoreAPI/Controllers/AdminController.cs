@@ -1,6 +1,7 @@
 ﻿using BookStoreAPI.DTOs;
 using BookStoreAPI.DTOs.AdminDTOs;
 using BookStoreAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace BookStoreAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         UserManager<IdentityUser> userManager;
